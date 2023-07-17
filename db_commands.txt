@@ -1,0 +1,19 @@
+CREATE TABLE Users (
+   UserID INTEGER PRIMARY KEY AUTOINCREMENT,
+   Username TEXT NOT NULL UNIQUE,
+   Email TEXT NOT NULL
+);
+
+CREATE TABLE Puns(
+   ID INTEGER  PRIMARY KEY AUTOINCREMENT,
+   Title text NOT NULL,
+   Question text NOT NULL,
+   Answer text NOT NULL,
+   Date_Created text NOT NULL,
+   Created_By text NOT NULL,
+   FOREIGN KEY (Created_By)
+       REFERENCES Users (Username)
+);
+
+INSERT INTO Puns(Title, Question, Answer, Date_Created, Created_By)   
+VALUES ('test', 'test', 'test', '2016-12-13T21:20:37.593194+00:00' 'admin')
