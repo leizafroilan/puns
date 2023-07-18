@@ -7,9 +7,11 @@ Base = declarative_base()
 class Users(Base):
     __tablename__ = "Users"
 
-    UserID = Column(Integer, index=True)
     Username = Column(String, primary_key=True, unique=True, index=True)
+    Full_Name = Column(String, index=True)
+    Hashed_Password = Column(String, index=True)
     Email = Column(String, unique=True, index=True)
+    Disabled = Column(Integer, index=True)
    
     users = relationship("Puns", back_populates="puns")
 

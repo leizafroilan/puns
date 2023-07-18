@@ -7,7 +7,8 @@ import random
 from code.crud.pun_crud import get_random_pun, create_pun, get_all
 from code.config.db import get_db
 from code.models.pun_model import PunCreate, PunDisplay
-
+from code.config.auth.users_auth import get_current_active_user
+from code.config.auth.users_model import User
 
 router = APIRouter(
     prefix="/puns",
@@ -52,6 +53,8 @@ async def get_all_puns(db: Session = Depends(get_db)):
 @router.post("/create",
         #    response_model=PunDisplay
           )
-async def create_user(pun: PunCreate, db: Session = Depends(get_db)):
-    result = await create_pun(db, pun.Title, pun.Question, pun.Answer)
+async def create_user(pun: PunCreate, db: Session = Depends(get_db),
+                current_user: User = Depends(get_current_active_user)):
+  
+    result = await create_pun(db, pun.Title, pun.Question, pun.Answer, current_user.Username)
     return jsonable_encoder(result)

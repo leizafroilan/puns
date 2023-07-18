@@ -55,11 +55,11 @@ async def get_all(db: Session):
             "Status": 500
         }
 
-async def create_pun(db: Session, title, question, answer, d: datetime = datetime.now() ):
+async def create_pun(db: Session, title, question, answer, user, d: datetime = datetime.now() ):
 
 
     try:
-        db_item = Puns(Created_By="admin", Title=title, Question=question, Answer=answer, Date_Created=d)
+        db_item = Puns(Created_By=user, Title=title, Question=question, Answer=answer, Date_Created=d)
         db.add(db_item)
         db.commit()
         db.refresh(db_item)
