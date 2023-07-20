@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException, status, Security
 from fastapi.security import (
     OAuth2PasswordBearer,
     OAuth2PasswordRequestForm,
@@ -15,7 +15,10 @@ from code.config.db import get_db
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl="login",
+    scopes={"ro": "Read Only", "rw": "Read/Write"},
+)
 
 def get_user(db: Session, username: str):
     return db.query(Users).filter(Users.Username == username).first()
@@ -40,8 +43,17 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return encoded_jwt
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme),
-                    db: Session = Depends(get_db)):
+async def get_current_user(
+                    security_scopes: SecurityScopes,
+                    token: str = Depends(oauth2_scheme),
+                    db: Session = Depends(get_db)
+                    ):
+
+    if security_scopes.scopes:
+        authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'
+    else:
+        authenticate_value = "Bearer"
+
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -49,11 +61,13 @@ async def get_current_user(token: str = Depends(oauth2_scheme),
     )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        print(payload)
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
-        token_data = TokenData(username=username)
+        token_scopes = payload.get("scopes", [])
+
+        token_data = TokenData(scopes=token_scopes, username=username)
+
     except JWTError:
         raise credentials_exception
 
@@ -61,7 +75,15 @@ async def get_current_user(token: str = Depends(oauth2_scheme),
 
     if user is None:
         raise credentials_exception
-    return user
+
+    if token_data.scopes in security_scopes.scopes:
+        return user
+    else:
+        raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Not enough permissions",
+                    headers={"WWW-Authenticate": authenticate_value}
+        )
 
 async def get_current_active_user(user: User = Depends(get_current_user)):
     user_data = vars(user)  

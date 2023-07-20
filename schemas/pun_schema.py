@@ -11,6 +11,7 @@ class Users(Base):
     Full_Name = Column(String, index=True)
     Hashed_Password = Column(String, index=True)
     Email = Column(String, unique=True, index=True)
+    Scopes = Column(String, unique=True, index=True)
     Disabled = Column(Integer, index=True)
    
     users = relationship("Puns", back_populates="puns")

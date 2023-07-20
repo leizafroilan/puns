@@ -6,10 +6,13 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    username: str 
+    username: str
+    # scopes: list[str] = []
+    scopes: str
 
 class User(BaseModel):
     Username: str
     Email: str 
-    Full_Name: str 
+    Full_Name: str
+    Scopes: str 
     Disabled: int 

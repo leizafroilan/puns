@@ -15,4 +15,10 @@ class PunCreate(BaseModel):
     
     class Config:
         orm_mode = True
+
+class PunDelete(BaseModel):
+    ID: int
+    
+    class Config:
+        orm_mode = True
  

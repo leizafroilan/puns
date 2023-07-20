@@ -1,5 +1,6 @@
 
 from sqlalchemy.orm import Session
+from sqlalchemy import delete
 from datetime import datetime
 from code.config.db import get_db
 from code.schemas.pun_schema import Users, Puns
@@ -76,3 +77,24 @@ async def create_pun(db: Session, title, question, answer, user, d: datetime = d
             "Status": 500
         }
 
+async def delete_pun(db: Session, _id):
+
+    try:
+        # stmt = delete(Puns).where(Puns.ID == _id)
+        # print(stmt)
+        # db.execute(stmt)
+        db.query(Puns).filter(Puns.ID == _id).delete()
+        db.commit()
+        # db.refresh(db_item)
+        return {
+            "Result": "Success",
+            "Message": "Item has been successfully deleted from the DB",
+            "Status": 200
+        }
+
+    except Exception as e:
+        return {
+            "Result": "Fail",
+            "Message": str(e),
+            "Status": 500
+        }
