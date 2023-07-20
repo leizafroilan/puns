@@ -17,12 +17,3 @@ CREATE TABLE Puns (
    FOREIGN KEY (Created_By)
        REFERENCES Users (Username)
 );
-
-INSERT INTO Users (Username, Full_Name, Email, Hashed_Password, Scopes, Disabled )
-VALUES ('admin', 'Froilan Leiza', 'leizafroilan@gmail.com', '$2b$12$hqNn5IvfyNMF4bjtjAXfZeeNsE/wfQMdYr6g01blFY3s3CumEF06u', 'rw', 0);
-
-INSERT INTO Users (Username, Full_Name, Email, Hashed_Password, Scopes, Disabled )
-VALUES ('inactive', 'inactive user', 'no@email.com', '$2b$12$hqNn5IvfyNMF4bjtjAXfZeeNsE/wfQMdYr6g01blFY3s3CumEF06u', 'ro', 1);
-
-INSERT INTO Users (Username, Full_Name, Email, Hashed_Password, Scopes, Disabled )
-VALUES ('readonly', 'readonly', 'no@email.com', '$2b$12$hqNn5IvfyNMF4bjtjAXfZeeNsE/wfQMdYr6g01blFY3s3CumEF06u', 'ro', 0);
