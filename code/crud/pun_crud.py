@@ -1,6 +1,6 @@
 
 from sqlalchemy.orm import Session
-from sqlalchemy import delete
+from sqlalchemy import delete, desc
 from datetime import datetime
 from code.config.db import get_db
 from code.schemas.pun_schema import Users, Puns
@@ -22,10 +22,26 @@ async def get_random_pun(db: Session, random_id):
             "Status": 500
         }
     
+async def get_new_pun(db: Session):
+
+    try:
+        query =  db.query(Puns).order_by(Puns.Date_Created.desc()).offset(0).limit(10).all()
+        return {
+            "Result": "Success",
+            "Message": query,
+            "Status": 200
+        }
+    except Exception as e:
+        return {
+            "Result": "Failed",
+            "Message": str(e),
+            "Status": 500
+        }
+    
 async def get_all(db: Session):
 
     try:
-        query = db.query(Puns).order_by(Puns.ID).offset(0).limit(100).all()
+        query = db.query(Puns).order_by(Puns.ID).offset(0).limit(1000).all()
 
         return {
             "Result": "Success",

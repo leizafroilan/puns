@@ -15,4 +15,5 @@ class User(BaseModel):
     Email: str 
     Full_Name: str
     Scopes: str 
-    Disabled: int 
+    Disabled: int
+
