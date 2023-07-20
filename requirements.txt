@@ -3,6 +3,7 @@ aiosignal==1.3.1
 anyio==3.7.0
 async-timeout==4.0.2
 attrs==23.1.0
+bcrypt==4.0.1
 cachetools==5.3.1
 certifi==2023.5.7
 cffi==1.15.1
@@ -11,6 +12,7 @@ click==8.1.3
 cloud-sql-python-connector==1.2.4
 colorama==0.4.6
 cryptography==41.0.1
+ecdsa==0.18.0
 exceptiongroup==1.1.1
 fastapi==0.98.0
 frozenlist==1.3.3
@@ -20,11 +22,14 @@ h11==0.14.0
 idna==3.4
 multidict==6.0.4
 orjson==3.9.1
+passlib==1.7.4
 pyasn1==0.5.0
 pyasn1-modules==0.3.0
 pycparser==2.21
 pydantic==1.10.9
 pyodbc==4.0.39
+python-jose==3.3.0
+python-multipart==0.0.6
 python-tds==1.12.0
 requests==2.31.0
 rsa==4.9
