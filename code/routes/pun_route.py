@@ -1,9 +1,9 @@
+import random
 from fastapi import APIRouter, Depends, HTTPException, Security
 from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import ORJSONResponse
 from typing import List
-import random
 from code.crud.pun_crud import get_random_pun, create_pun, get_all, delete_pun, get_new_pun
 from code.config.db import get_db
 from code.models.pun_model import PunCreate, PunDisplay, PunDelete
@@ -11,7 +11,7 @@ from code.config.auth.users_auth import get_current_active_user
 from code.config.auth.users_model import User
 
 router = APIRouter(
-    prefix="/puns",
+    prefix="api/v1/puns",
     tags=["puns"],
 )
 
@@ -20,6 +20,7 @@ router = APIRouter(
             response_class=ORJSONResponse)
             
 async def route_get_rnd_pun(db: Session = Depends(get_db)):
+    
     # Queries all from Puns DB
     results = await get_all(db)
 

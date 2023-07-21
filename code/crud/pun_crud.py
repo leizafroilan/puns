@@ -96,12 +96,9 @@ async def create_pun(db: Session, title, question, answer, user, d: datetime = d
 async def delete_pun(db: Session, _id):
 
     try:
-        # stmt = delete(Puns).where(Puns.ID == _id)
-        # print(stmt)
-        # db.execute(stmt)
         db.query(Puns).filter(Puns.ID == _id).delete()
         db.commit()
-        # db.refresh(db_item)
+        
         return {
             "Result": "Success",
             "Message": "Item has been successfully deleted from the DB",

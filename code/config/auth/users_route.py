@@ -12,7 +12,6 @@ from code.config.auth.users_model import User
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 router = APIRouter(
-    # prefix="/login",
     tags=["authentication"],
 )
 
