@@ -11,7 +11,7 @@ from code.config.auth.users_auth import get_current_active_user
 from code.config.auth.users_model import User
 
 router = APIRouter(
-    prefix="api/v1/puns",
+    prefix="/api/v1/puns",
     tags=["puns"],
 )
 
@@ -20,7 +20,7 @@ router = APIRouter(
             response_class=ORJSONResponse)
             
 async def route_get_rnd_pun(db: Session = Depends(get_db)):
-    
+
     # Queries all from Puns DB
     results = await get_all(db)
 
