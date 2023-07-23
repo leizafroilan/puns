@@ -15,6 +15,7 @@ Embrace the pun-tastic possibilities and let the laughter flow freely with every
 # Set up CORS middleware
 origins = [
     "http://localhost:3000",  
+    "https://127.0.0.1:3000",
     "http://3.15.142.60:9000/"
 ]
 
